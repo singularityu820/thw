@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "train",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "dl.train",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-opt",
+                "options/train/HDR.yml"
+            ]
+        },
+        {
+            "name": "test",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "dl.test",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-opt",
+                "options/test/HDR.yml"
+            ]
+        },
+    ]
+}

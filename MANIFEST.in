@@ -1,0 +1,6 @@
+include dl/ops/dcn/src/*.cu dl/ops/dcn/src/*.cpp
+include dl/ops/fused_act/src/*.cu dl/ops/fused_act/src/*.cpp
+include dl/ops/upfirdn2d/src/*.cu dl/ops/upfirdn2d/src/*.cpp
+include dl/metrics/niqe_pris_params.npz
+include VERSION
+include requirements.txt

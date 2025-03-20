@@ -1,0 +1,65 @@
+<scene version='3.0.0'>
+
+    <default name="spp" value="1024"/>
+    <default name="res" value="256"/>
+
+    <default name="normalPath" value="./normal.png"/>
+    <default name="diffusePath" value="./diffuse.png"/>
+    <default name="roughnessPath" value="./roughness.png"/>
+    <default name="specularPath" value="./specular.png"/>
+
+    <integrator type="path">
+        <integer name="max_depth" value="5"/>
+    </integrator>
+
+    <sensor type="perspective" id="sensor">
+        <float name="fov" value="45"/>
+        <transform name="to_world">
+            <lookat target="0.0, 0.0, 0.0"
+                    origin="0.0, 0.0, 2.414"
+                    up    ="0.0, 1.0, 0.0"/>
+        </transform>
+        <sampler type="independent">
+            <integer name="sample_count" value="$spp"/>
+        </sampler>
+        <film type="hdrfilm">
+            <rfilter type="tent"/>
+            <integer name="width"  value="$res"/>
+            <integer name="height" value="$res"/>
+        </film>
+    </sensor>
+
+    <shape type="obj">
+        <string name="filename" value="./plane.obj"/>
+        <bsdf type="normalmap">
+            <texture name="normalmap" type="bitmap">
+                <boolean name="raw" value="true"/>
+                <string name="filename" value="$normalPath"/>
+            </texture>
+            <bsdf type="blendbsdf">
+                <float name="weight" value="0.5"/>
+                <bsdf type="diffuse">
+                    <texture type="bitmap" name="reflectance">
+                        <boolean name="raw" value="true"/>
+                        <string name="filename" value="$diffusePath"/>
+                    </texture>
+                </bsdf>
+                <bsdf type="roughconductor">
+                    <string name="distribution" value="ggx"/>
+                    <texture type="bitmap" name="alpha">
+                        <boolean name="raw" value="true"/>
+                        <string name="filename" value="$roughnessPath"/>
+                    </texture>
+                    <texture type="bitmap" name="specular_reflectance">
+                        <boolean name="raw" value="true"/>
+                        <string name="filename" value="$specularPath"/>
+                    </texture>
+                </bsdf>
+            </bsdf>
+        </bsdf>
+    </shape>
+    <emitter type="point">
+        <point name="position" value="0.0, 0.0, 2.414"/>
+        <rgb name="intensity" value="48"/>
+    </emitter>
+</scene>

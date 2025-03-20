@@ -1,0 +1,56 @@
+# general settings
+name: '004'
+# name: DEBUG
+
+
+model_type: HDRModel
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 10
+
+# dataset and data loader settings
+datasets:
+  val:
+    name: MatSynthDataset
+    type: MatSynthDataset
+    svbrdf_root: /home/xiaojiu/datasets/MatSynth/test_linear
+    single_input: True
+
+distance: 2.414
+
+brdf_args:
+  split_num: 4
+  nbRendering: 1
+  split_axis: 1
+  concat: True
+  svbrdf_norm: True
+  size: 256
+  order: 'ndrs'
+  toLDR: True
+  lampIntensity: 48
+
+# network structures
+network_g:
+  type: HDRNet
+  width: 32
+  enc_blk_nums: [2, 2, 4, 8]
+  middle_blk_num: 12
+  dec_blk_nums: [2, 2, 2, 2]
+
+# path
+path:
+  pretrain_network_g: /home/zjj/exps/hdr/experiments/004/models/net_g_latest.pth
+  strict_load_g: true
+  resume_state: ~
+
+# validation settings 
+val:
+  val_freq: !!float 1e4
+  IsTest: True
+
+  metrics:
+    pix: # metric name, can be arbitrary
+      type: calculate_pixel
+      weight: 1
+    rmse:
+      type: calculate_rmse
+      weight: 1
